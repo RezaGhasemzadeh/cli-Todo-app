@@ -1,16 +1,18 @@
 import sqlite3
 from rich import print, box
 from rich.panel import Panel
+from database import Database
 
 
 class TodoApp:
 
     def __init__(self):
         print(Panel("[green]Welcome to Todo app[/green]", box=box.HEAVY))
-        self.database = sqlite3.connect("tasks.db")
+        self.db = Database()
 
     def add_task(self):
-        pass
+        user_task = input("Enter your task: ")
+        self.db.insert(0, user_task)
 
     def remove_task(self):
         pass
@@ -32,7 +34,8 @@ class TodoApp:
             user_input = input("Enter your option: ")
             is_valid = self.validate_user_input(user_input)
             if is_valid:
-                pass
+                if user_input == '1':
+                    self.add_task()
             else:
                 print("\n[bold red]Invalid input please try again.[/bold red]\n")
                 continue
