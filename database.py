@@ -14,7 +14,8 @@ class Database:
                 """
                 CREATE TABLE task (
                     task_id INT,
-                    task TEXT
+                    task TEXT,
+                    done TEXT
                 )
                 """
             )
@@ -23,12 +24,18 @@ class Database:
             return
 
 
-    def insert(self, taskid: int, task: str):
-        self.cursor.execute(f"INSERT INTO task VALUES ('{taskid}', '{task}')")
+    def insert(self, task: str):
+        tasks, tasks_len = self.get_info()
+        taskid = tasks_len + 1
+        done = 'no'
+        self.cursor.execute(f"INSERT INTO task VALUES ('{taskid}', '{task}', '{done}')")
         self.db.commit()
-        print("Inserted successfully")
+
+    def get_info(self):
+        command = "SELECT * FROM task"
+        self.cursor.execute(command)
+        info = self.cursor.fetchall()
+        return info, len(info)
 
     def delete(self):
         pass
-
-
