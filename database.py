@@ -1,4 +1,5 @@
 import sqlite3
+from rich import print
 
 
 class Database:
@@ -30,6 +31,15 @@ class Database:
         done = 'no'
         self.cursor.execute(f"INSERT INTO task VALUES ('{taskid}', '{task}', '{done}')")
         self.db.commit()
+
+    def update(self, task_id):
+        command = f"SELECT * FROM task WHERE task_id = {task_id}"
+        self.cursor.execute(command)
+        task = self.cursor.fetchall()
+        if task:
+            pass
+        else:
+            print("\n[red]There is no such task[/red]\n")
 
     def get_info(self):
         command = "SELECT * FROM task"

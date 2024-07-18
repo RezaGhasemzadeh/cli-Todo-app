@@ -6,23 +6,22 @@ from rich.table import Table
 # Todo ->
 #  1- Implemeting the show tasks section: Done.
 #  2- Implementing editing the task and pushing it into github
-#
 
 
 class TodoApp:
 
-    def __init__(self):
+    def __init__(self) -> None:
         print(Panel("[green]Welcome to Todo app[/green]", box=box.HEAVY))
         self.db = Database()
-        self.table = Table(width=120, box=box.HEAVY)
         self.initialize_table()
 
-    def initialize_table(self):
+    def initialize_table(self) -> None:
+        self.table = Table(width=120, box=box.HEAVY)
         self.table.add_column("ID", justify="center", style="cyan")
         self.table.add_column("Task", justify="center", style="green")
         self.table.add_column("Done", justify="center", style="blue")
 
-    def add_task(self):
+    def add_task(self) -> None:
         user_task = input("Enter your task: ")
         if user_task:
             try:
@@ -36,27 +35,38 @@ class TodoApp:
     def remove_task(self):
         pass
 
-    def show_tasks(self):
+    def show_tasks(self) -> None:
         tasks, tasks_len = self.db.get_info()
         print(Panel(f"[bold blue]There are {tasks_len} tasks available[/bold blue]"))
         for (id, task, done_inf) in tasks:
             self.table.add_row(str(id), task, done_inf)
         if self.table.rows:
-            print(self.table)
+           print(self.table)
         else:
-            print("[red]There are no tasks yet.[/red]")
+           print("[red]There are no tasks yet[/red]")
+        # Calling the function to reconstruct the table because rich module has not provided any API's to reset the table.
+        self.initialize_table()
 
-    def edit_task(self):
-        pass
+    def validate_task_id(self, id: str) -> bool:
+        return id.isnumeric()
+
+    def edit_task(self) -> None:
+        self.show_tasks()
+        input_id = input("Enter the ID of the task that you want to edit: ")
+        is_id_valid = self.validate_task_id(input_id)
+        if is_id_valid:
+            self.db.update(input_id)
+        else:
+            print("\n[red]Please enter a number![/red]\n")
 
     def validate_user_input(self, user_input: str) -> bool:
         return user_input.isnumeric() and user_input in ['1', '2', '3', '4', '5', '6']
 
-    def print_instructions(self):
+    def print_instructions(self) -> None:
         instructions = "\n1- Add Task\n2- Delete Task\n3- Edit Task\n4- Show Tasks\n5- Exit\n6- Mark as Done\n"
         print(instructions)
 
-    def run(self):
+    def run(self) -> None:
         run_app = True
         while run_app:
             self.print_instructions()
@@ -65,6 +75,8 @@ class TodoApp:
             if is_valid:
                 if user_input == '1':
                     self.add_task()
+                elif user_input == '3':
+                    self.edit_task()
                 elif user_input == '5':
                     run_app = False
                 elif user_input == '4':
