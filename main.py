@@ -3,9 +3,6 @@ from rich import print, box
 from rich.panel import Panel
 from database import Database
 from rich.table import Table
-# Todo ->
-#  1- Implemeting the show tasks section: Done.
-#  2- Implementing editing the task and pushing it into github
 
 
 class TodoApp:
@@ -38,8 +35,8 @@ class TodoApp:
     def show_tasks(self) -> None:
         tasks, tasks_len = self.db.get_info()
         print(Panel(f"[bold blue]There are {tasks_len} tasks available[/bold blue]"))
-        for (id, task, done_inf) in tasks:
-            self.table.add_row(str(id), task, done_inf)
+        for (id_, task, done_inf) in tasks:
+            self.table.add_row(str(id_), task, done_inf)
         if self.table.rows:
            print(self.table)
         else:

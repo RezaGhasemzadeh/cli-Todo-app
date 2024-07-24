@@ -15,7 +15,7 @@ class Database:
                 """
                 CREATE TABLE task (
                     task_id INT,
-                    task TEXT,
+                    task_content TEXT,
                     done TEXT
                 )
                 """
@@ -37,7 +37,10 @@ class Database:
         self.cursor.execute(command)
         task = self.cursor.fetchall()
         if task:
-            pass
+            updated_task = input("Enter the updated task: ")
+            command = f"UPDATE task SET task_content = '{updated_task}' WHERE task_id = '{task_id}'"
+            self.cursor.execute(command)
+            self.db.commit()
         else:
             print("\n[red]There is no such task[/red]\n")
 
