@@ -30,7 +30,13 @@ class TodoApp:
             print("\n[bold red]Empty task! try again[/bold red]\n")
 
     def remove_task(self):
-        pass
+        self.show_tasks()
+        taskid_remove = input("Enter the ID of the task that you want to remove: ")
+        is_id_valid = self.validate_task_id(taskid_remove)
+        if is_id_valid:
+            self.db.delete(taskid_remove)
+        else:
+            print("\n[red]Please enter a number![/red]\n")
 
     def show_tasks(self) -> None:
         tasks, tasks_len = self.db.get_info()
@@ -72,6 +78,8 @@ class TodoApp:
             if is_valid:
                 if user_input == '1':
                     self.add_task()
+                elif user_input == '2':
+                    self.remove_task()
                 elif user_input == '3':
                     self.edit_task()
                 elif user_input == '5':

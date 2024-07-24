@@ -50,5 +50,17 @@ class Database:
         info = self.cursor.fetchall()
         return info, len(info)
 
-    def delete(self):
-        pass
+    def delete(self, task_id):
+        command = f"SELECT * FROM task WHERE task_id = {task_id}" 
+        self.cursor.execute(command)
+        task = self.cursor.fetchall()
+        if task:
+            delete_command = f"DELETE from task WHERE task_id = {task_id}"
+            try:
+                self.cursor.execute(delete_command)
+                self.db.commit()
+                print("\n[green]Task deleted successfully[/green]\n")
+            except:
+                print("\n[red]There was a problem in deleting the task[/red]\n")
+        else:
+            print("\n[red]There is no such task[/red]\n")
