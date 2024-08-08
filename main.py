@@ -69,6 +69,9 @@ class TodoApp:
         instructions = "\n1- Add Task\n2- Delete Task\n3- Edit Task\n4- Show Tasks\n5- Exit\n6- Mark as Done\n"
         print(instructions)
 
+    def mark_as_done(self):
+        print("Marking the task as done")
+
     def run(self) -> None:
         run_app = True
         while run_app:
@@ -86,6 +89,8 @@ class TodoApp:
                     run_app = False
                 elif user_input == '4':
                     self.show_tasks()
+                elif user_input == '6':
+                    self.mark_as_done()
             else:
                 print("\n[bold red]Invalid input please try again.[/bold red]\n")
                 continue
