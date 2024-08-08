@@ -32,6 +32,21 @@ class Database:
         self.cursor.execute(f"INSERT INTO task VALUES ('{taskid}', '{task}', '{done}')")
         self.db.commit()
 
+    def mark_as_done(self, task_id):
+        command = f"SELECT * FROM task WHERE task_id = {task_id}"
+        self.cursor.execute(command)
+        task = self.cursor.fetchall()
+        if task:
+            try:
+                command = f"UPDATE task SET done = 'yes' WHERE task_id = '{task_id}'"
+                self.cursor.execute(command)
+                self.db.commit()
+                print("\n[green]Task marked as done sucessfully[/green]\n")
+            except:
+                print("\n[red]There was a problem in marking the task as done![/red]\n")
+        else:
+            print("\n[red]There is no such task![/red]\n")
+
     def update(self, task_id):
         command = f"SELECT * FROM task WHERE task_id = {task_id}"
         self.cursor.execute(command)

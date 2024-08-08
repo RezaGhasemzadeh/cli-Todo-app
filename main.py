@@ -70,7 +70,13 @@ class TodoApp:
         print(instructions)
 
     def mark_as_done(self):
-        print("Marking the task as done")
+        self.show_tasks()
+        input_id = input("Enter the ID of the task that you want to mark as done: ")
+        is_id_valid = self.validate_task_id(input_id)
+        if is_id_valid:
+            self.db.mark_as_done(input_id)
+        else:
+            print("\n[red]Please enter a number![/red]\n")
 
     def run(self) -> None:
         run_app = True
